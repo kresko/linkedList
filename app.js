@@ -84,8 +84,72 @@ class LinkedList {
     }
 
     pop() {
-        //nadi ga sa nextNode.nextNode!!!
+        let current = this.listHead;
+        let prev = null;
+
+        while(current.nextNode != null) {
+            prev = current;
+            current = current.nextNode;
+        }
+
+        prev.nextNode = current.nextNode;
+    }
+
+    contains(value) {
         let tmp = this.listHead;
+        
+        while(tmp != null) {
+            if(tmp.value == value) {
+                return true;
+            }
+
+            tmp = tmp.nextNode;
+        }
+        return false;
+    }
+    
+    find(value) {
+        let tmp = this.listHead;
+        let currentIndex = 0;
+
+        while(tmp != null) {
+            if(tmp.value === value) {
+                return currentIndex;
+            }
+ 
+            tmp = tmp.nextNode;
+            currentIndex++;
+        }
+
+        return null;
+    }
+
+    insertAt(value, index) {
+        let current = this.listHead;
+        let prev = null;
+
+        for(let i = 0; i < index; i++) {
+            prev = current;
+            current = current.nextNode;
+
+            if(current === null) { break; }
+        }
+
+        const tmp = new Node(value);
+        prev.nextNode = tmp;
+        tmp.nextNode = current;
+    }
+
+    removeAt(index) {
+        let tmp = this.listHead;
+        let prev = null;
+
+        for(let i = 0; i < index; i++) {
+            prev = tmp;
+            tmp = tmp.nextNode;
+        }
+
+        prev.nextNode = tmp.nextNode;
     }
 
     toString() {
@@ -111,9 +175,16 @@ let li = new LinkedList();
 li.prepend("test1");
 li.prepend("test2");
 li.append("test3");
+li.append("test4");
 console.log(li.toString());
 console.log(li.size());
 console.log(li.tail());
 console.log(li.head());
-console.log(li.at(1));
-
+console.log(li.at(0));
+li.pop();
+console.log(li.contains("test4"));
+console.log(li.find("test4"));
+li.insertAt("test2.1", 2);
+console.log(li.toString());
+li.removeAt(2);
+console.log(li.toString());
